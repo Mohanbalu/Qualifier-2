@@ -71,6 +71,11 @@ function App() {
     setIsRegistering(!isRegistering);
   };
 
+  const handleFormSubmitComplete = () => {
+    setUser(null);
+    setFormData(null);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -93,7 +98,7 @@ function App() {
               />
             )
           ) : (
-            <DynamicForm formData={formData} />
+            <DynamicForm formData={formData} onSubmitComplete={handleFormSubmitComplete} />
           )}
         </div>
       </div>

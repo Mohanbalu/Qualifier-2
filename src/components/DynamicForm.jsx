@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-function DynamicForm({ formData }) {
+function DynamicForm({ formData, onSubmitComplete }) {
   const [currentSection, setCurrentSection] = useState(0);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const { register, handleSubmit, formState: { errors }, trigger } = useForm();
   const sections = formData?.sections || [];
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log('Form submitted:', data);
+    setIsSubmitted(true);
+    setTimeout(() => {
+      onSubmitComplete();
+    }, 2000);
   };
 
   const validateSection = async () => {
@@ -112,6 +117,15 @@ function DynamicForm({ formData }) {
 
   if (!formData) {
     return <div>Loading form...</div>;
+  }
+
+  if (isSubmitted) {
+    return (
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-green-600 mb-4">Form Submitted Successfully!</h2>
+        <p className="text-gray-600">Redirecting to login...</p>
+      </div>
+    );
   }
 
   const currentSectionData = sections[currentSection];
